@@ -24,7 +24,7 @@ class Output(BaseModel):
 @app.post("/predict")
 def predict(data: Input) -> Output:
     if data.key != secret_key:
-        return Output(y = -0.0, slope = -0.0, intercept = -0.0, status = "error")
+        return Output(y = -0.0010, slope = -0.0020, intercept = -0.0, status = "error")
     X_input = np.array([[data.X]])
     model = joblib.load('pipline_lr_deploy.pkl')
     prediction = model.predict(X_input)
