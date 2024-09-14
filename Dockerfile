@@ -6,6 +6,8 @@ COPY . /app
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+ENV PORT=8080
+
 EXPOSE $PORT
 
 CMD exec uvicorn model_app:app --port=$PORT --host=0.0.0.0 
