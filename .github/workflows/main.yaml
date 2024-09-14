@@ -19,6 +19,26 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
 
+      - name: Echo app name
+        run: echo "Deploying to app: ${{ secrets.HEROKU_APP_NAME }}"
+
+      - name: List Heroku apps
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku apps
+
+      - name: Check app info
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: heroku apps:info --app $HEROKU_APP_NAME || echo "App not found or no access"
+
+      - name: Create Heroku app if it doesn't exist
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: heroku apps:create $HEROKU_APP_NAME || true
+
       - name: Build and push
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
